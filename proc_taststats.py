@@ -118,8 +118,6 @@ class Proc_TaskStats(object):
   def __init__(self, process):
     self.name = "Proc_TaskStats"
     self.__pid__ = process
-    self.statlist = {}
-    self.cputimesum = {}
 
     self.socket = socket.socket(socket.AF_NETLINK, socket.SOCK_RAW, NETLINK_GENERIC)
     self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, 65536)
@@ -131,11 +129,10 @@ class Proc_TaskStats(object):
     self.pid, self.groups = self.socket.getsockname()
     if debug > 0: print "self.pid:",self.pid
 
-    self._seq = 0
 
     self.type = GENL_ID_CTRL
     self.flags = NLM_F_REQUEST
-    self.seq = 0
+
     self.proc_gentlink()
 
     if debug > 0: print "Family ID: ", GE_Attr[CTRL_ATTR_FAMILY_ID]
